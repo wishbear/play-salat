@@ -7,6 +7,7 @@ import com.novus.salat.annotations._
 import com.novus.salat.dao._
 import com.mongodb.casbah.Imports._
 import se.radley.plugin.salat._
+
 import mongoContext._
 
 case class User(
@@ -21,9 +22,11 @@ case class User(
 )
 
 object User extends ModelCompanion[User, ObjectId] {
-  val collection = mongoCollection("users")
-  val dao = new SalatDAO[User, ObjectId](collection = collection) {}
 
-  def findOneByUsername(username: String): Option[User] = dao.findOne(MongoDBObject("username" -> username))
-  def findByCountry(country: String) = dao.find(MongoDBObject("address.country" -> country))
+  def dao={
+    new SalatDAO[User,ObjectId](collection = mongoCollection("users")) {}
+  }
+
+  def findOneByUsername(username: String): Option[User] =  findOne(MongoDBObject("username" -> username))
+  def findByCountry(country: String) =  find(MongoDBObject("address.country" -> country))
 }

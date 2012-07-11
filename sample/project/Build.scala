@@ -8,6 +8,7 @@ object ApplicationBuild extends Build {
     val appVersion      = "1.0"
 
     val appDependencies = Seq(
+      "de.flapdoodle.embedmongo" % "de.flapdoodle.embedmongo" % "1.11",
       "se.radley" %% "play-plugins-salat" % "1.0.7"
     )
 
