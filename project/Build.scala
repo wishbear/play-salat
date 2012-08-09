@@ -3,7 +3,7 @@ import sbt.Keys._
 
 object ProjectBuild extends Build {
 
-  lazy val buildVersion =  "1.0.7"
+  lazy val buildVersion =  "1.0.7-HOTFIX-SNAPSHOT"
 
   lazy val root = Project(id = "play-plugins-salat", base = file("."), settings = Project.defaultSettings).settings(
     organization := "se.radley",
@@ -12,10 +12,11 @@ object ProjectBuild extends Build {
     scalaVersion := "2.9.1",
     resolvers += "Typesafe Releases" at "http://repo.typesafe.com/typesafe/releases/",
     resolvers += "Typesafe Snapshots" at "http://repo.typesafe.com/typesafe/snapshots/",
-    libraryDependencies += "play" %% "play" % "2.0.2",
-    libraryDependencies += "play" %% "play-test" % "2.0.2" % "test",
+    libraryDependencies += "play" %% "play" % "2.0.3",
+    libraryDependencies += "play" %% "play-test" % "2.0.3" % "test",
     libraryDependencies += "com.novus" %% "salat" % "1.9.0",
-
+    credentials += Credentials(Path.userHome / ".ivy2" / ".credentials"),
+    
     publishMavenStyle := true,
     publishArtifact in Test := false,
     pomIncludeRepository := { _ => false },
@@ -29,8 +30,8 @@ object ProjectBuild extends Build {
         </license>
       </licenses>
       <scm>
-        <url>git@github.com:leon/play-salat.git</url>
-        <connection>scm:git:git@github.com:leon/play-salat.git</connection>
+        <url>git@github.com:wishbear/play-salat.git</url>
+        <connection>scm:git:git@github.com:wishbear/play-salat.git</connection>
       </scm>
       <developers>
         <developer>
@@ -41,11 +42,11 @@ object ProjectBuild extends Build {
       </developers>
     ),
     publishTo <<= version { version: String =>
-      val nexus = "https://oss.sonatype.org/"
+      val artifactory = "http://repo.myhotspot.ru/"
       if (version.trim.endsWith("SNAPSHOT"))
-        Some("snapshots" at nexus + "content/repositories/snapshots")
+        Some("snapshots" at artifactory + "snapshots")
       else
-        Some("releases" at nexus + "service/local/staging/deploy/maven2")
+        Some("releases" at artifactory + "releases")
     }
   )
 }
